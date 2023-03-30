@@ -36,12 +36,11 @@ contract LaunchPad is ERC20 {
 
     function startSales() public onlyOwner {
         require(totalPoolToken != 0, "Set setTokenDistribution");
-        launchDetails memory _launch = launchDetails(
-            block.timestamp,
-            3 minutes,
-            block.timestamp + 3 minutes,
-            true
-        );
+        launchDetails memory _launch;
+        _launch.startTime = block.timestamp;
+        _launch.duration = 3 minutes;
+        _launch.endLaunch = _launch.startTime + 3 minutes;
+        _launch.inProgress = true;
 
         launchpad = _launch;
     }
@@ -54,10 +53,14 @@ contract LaunchPad is ERC20 {
             msg.value <= totalPoolToken,
             "Not enough tokens left, consider reducing purchase amount"
         );
-        require(launchpad.inProgress == true, "LauchPad ended");
+        if (block.timestamp < launchpad.endLaunch) {
+            launchpad.inProgress == false;
+        }
+        require(launchpad.inProgress == true, "LaunchPad ended");
 
         uint transferAmt = tokenEquivalent();
         _mint(msg.sender, transferAmt);
+        totalPoolToken -= transferAmt;
         if (participated[msg.sender] != true) {
             lauchpadParticipants.push(msg.sender);
         }
@@ -65,5 +68,6 @@ contract LaunchPad is ERC20 {
 
     function tokenEquivalent() internal returns (uint) {
         uint equiAmt = msg.value * 1;
+        return equiAmt;
     }
 }
