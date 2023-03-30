@@ -2,23 +2,28 @@
 pragma solidity ^0.8.13;
 
 import "forge-std/Test.sol";
-import "../src/Counter.sol";
+import "../src/LaunchPad.sol";
 
-contract CounterTest is Test {
-    Counter public counter;
+contract LauchPadTest is Test {
+    LaunchPad public launchP;
+
+    address owner = mkaddr("owner");
 
     function setUp() public {
-        counter = new Counter();
-        counter.setNumber(0);
+        vm.startPrank(owner);
+        launchP = new LaunchPad();
     }
 
-    function testIncrement() public {
-        counter.increment();
-        assertEq(counter.number(), 1);
+    function testSetTokenDistribution() public {
+        launchP.setTokenDistribution(20);
+        launchP.startSales();
     }
 
-    function testSetNumber(uint256 x) public {
-        counter.setNumber(x);
-        assertEq(counter.number(), x);
+    function mkaddr(string memory name) public returns (address) {
+        address addr = address(
+            uint160(uint256(keccak256(abi.encodePacked(name))))
+        );
+        vm.label(addr, name);
+        return addr;
     }
 }

@@ -30,12 +30,12 @@ contract LaunchPad is ERC20 {
 
     function setTokenDistribution(
         uint _amount
-    ) public pure onnlyOwner returns (uint) {
-        totalPoolToken = amount * 1 ether;
+    ) public onlyOwner returns (uint) {
+        totalPoolToken = _amount * 1 ether;
     }
 
     function startSales() public onlyOwner {
-        require(totalPoolToken != 0, "Set setTokenDistribution")
+        require(totalPoolToken != 0, "Set setTokenDistribution");
         launchDetails memory _launch = launchDetails(
             block.timestamp,
             3 minutes,
@@ -58,8 +58,7 @@ contract LaunchPad is ERC20 {
 
         uint transferAmt = tokenEquivalent();
         _mint(msg.sender, transferAmt);
-        _totalSupply += transferAmt;
-        if (participated[msg.sender] == true) {
+        if (participated[msg.sender] != true) {
             lauchpadParticipants.push(msg.sender);
         }
     }
