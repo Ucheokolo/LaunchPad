@@ -53,8 +53,8 @@ contract LaunchPad is ERC20 {
             msg.value <= totalPoolToken,
             "Not enough tokens left, consider reducing purchase amount"
         );
-        if (block.timestamp < launchpad.endLaunch) {
-            launchpad.inProgress == false;
+        if (block.timestamp > launchpad.endLaunch) {
+            launchpad.inProgress = false;
         }
         require(launchpad.inProgress == true, "LaunchPad ended");
 

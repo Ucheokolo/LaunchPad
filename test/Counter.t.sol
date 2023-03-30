@@ -36,7 +36,7 @@ contract LauchPadTest is Test {
         launchP.launchDeposit{value: 0.5 ether}();
 
         launchP.totalSupply();
-        vm.warp(4 minutes);
+        vm.warp(2 minutes);
 
         vm.prank(participant2);
         launchP.launchDeposit{value: 9 ether}();
