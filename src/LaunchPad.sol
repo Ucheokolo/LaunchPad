@@ -5,9 +5,10 @@ import "lib/openzeppelin-contracts/contracts/token/ERC20/ERC20.sol";
 
 contract LaunchPad is ERC20 {
     address owner;
-    uint private totalPoolToken = 20 ether;
+    uint private totalPoolToken;
     address[] public lauchpadParticipants;
     uint public minimumAmt = 0.1 ether;
+    mapping(address => bool) public participated;
 
     struct launchDetails {
         uint startTime;
@@ -16,18 +17,25 @@ contract LaunchPad is ERC20 {
         bool inProgress;
     }
 
+    launchDetails public launchpad;
+
     constructor() ERC20("Ogeni", "OGN") {
         owner = msg.sender;
     }
-
-    launchDetails public launchpad;
 
     modifier onlyOwner() {
         require(msg.sender == owner, "Only owner can start Launchpad");
         _;
     }
 
+    function setTokenDistribution(
+        uint _amount
+    ) public pure onnlyOwner returns (uint) {
+        totalPoolToken = amount * 1 ether;
+    }
+
     function startSales() public onlyOwner {
+        require(totalPoolToken != 0, "Set setTokenDistribution")
         launchDetails memory _launch = launchDetails(
             block.timestamp,
             3 minutes,
@@ -51,6 +59,9 @@ contract LaunchPad is ERC20 {
         uint transferAmt = tokenEquivalent();
         _mint(msg.sender, transferAmt);
         _totalSupply += transferAmt;
+        if (participated[msg.sender] == true) {
+            lauchpadParticipants.push(msg.sender);
+        }
     }
 
     function tokenEquivalent() internal returns (uint) {
