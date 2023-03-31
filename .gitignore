@@ -1,6 +1,7 @@
 # Compiler files
 cache/
 out/
+launch_pad/broadcast/LaunchPad.s.sol/
 
 # Ignores development broadcast logs
 !/broadcast
