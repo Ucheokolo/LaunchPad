@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
 
-import "lib/openzeppelin-contracts/contracts/token/ERC20/ERC20.sol";
+import "../lib/openzeppelin-contracts/contracts/token/ERC20/ERC20.sol";
 
 contract LaunchPad is ERC20 {
     address owner;
@@ -24,7 +24,7 @@ contract LaunchPad is ERC20 {
     }
 
     modifier onlyOwner() {
-        require(msg.sender == owner, "Only owner can start Launchpad");
+        require(msg.sender == owner, "Only owner can call this function");
         _;
     }
 
@@ -64,6 +64,23 @@ contract LaunchPad is ERC20 {
         if (participated[msg.sender] != true) {
             lauchpadParticipants.push(msg.sender);
         }
+    }
+
+    function retreiveFunds() public payable onlyOwner {
+        if (block.timestamp > launchpad.endLaunch) {
+            launchpad.inProgress = false;
+        }
+        require(launchpad.inProgress == false, "Sales in progress");
+        uint _amount = withdrawFunds();
+        (bool sent, bytes memory data) = address(msg.sender).call{
+            value: _amount
+        }("");
+        require(sent, "Failed to send Ether");
+    }
+
+    function withdrawFunds() internal view returns (uint) {
+        uint contractBal = address(this).balance;
+        return contractBal;
     }
 
     function tokenEquivalent() internal returns (uint) {

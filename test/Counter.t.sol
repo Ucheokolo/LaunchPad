@@ -36,11 +36,22 @@ contract LauchPadTest is Test {
         launchP.launchDeposit{value: 0.5 ether}();
 
         launchP.totalSupply();
-        vm.warp(2 minutes);
+        vm.warp(3 minutes);
 
         vm.prank(participant2);
         launchP.launchDeposit{value: 9 ether}();
         launchP.totalSupply();
+
+        vm.prank(participant3);
+        launchP.launchDeposit{value: 6 ether}();
+        launchP.totalSupply();
+
+        vm.warp(4 minutes);
+
+        vm.prank(owner);
+        launchP.retreiveFunds();
+        console.log(address(owner).balance);
+        console.log(address(launchP).balance);
     }
 
     function mkaddr(string memory name) public returns (address) {
