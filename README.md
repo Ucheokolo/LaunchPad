@@ -19,19 +19,19 @@ You can interact with contract on [Contract Addres](https://sepolia.etherscan.io
 
 ##### Code Snippet
 
-<img src="../launch_pad/images/code.png" style="width: 50%" alt="code">
+<img src="launch_pad/images/code.png" style="width: 50%" alt="code">
 
 ##### Contract Verified
 
-<img src="../launch_pad/images/verified.png" style="width: 50%" alt="verified">
+<img src="launch_pad/images/verified.png" style="width: 50%" alt="verified">
 
 ##### Successful transaction
 
-<img src="../launch_pad/images/deposite.png" style="width: 50%" alt="success">
+<img src="launch_pad/images/deposite.png" style="width: 50%" alt="success">
 
 ##### Failed transaction
 
-<img src="../launch_pad/images/end.png" style="width: 50%" alt="failed">
+<img src="launch_pad/images/end.png" style="width: 50%" alt="failed">
 
 ### Language
 
